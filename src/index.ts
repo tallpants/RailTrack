@@ -9,7 +9,12 @@ app.use(bodyParser.json());
 
 app.post('/dialogflow-webhook', (request, response) => {
   const app = new DialogflowApp({ request, response });
-  app.tell('The service is functional!');
+  // app.tell('The service is functional!');
+  const intent = app.getIntent();
+  if (intent === 'GET_PNR_STATUS') {
+    console.log(app.getArgument('pnr'));
+  }
+  app.tell('Whatever');
 });
 
 const port = process.env.PORT || 8080;
