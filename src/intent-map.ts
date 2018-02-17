@@ -1,5 +1,5 @@
-import { DialogflowApp } from 'actions-on-google';
-import * as actions from './actions';
+import { DialogflowApp } from "actions-on-google";
+import * as actions from "./actions";
 
 type IntentName = string;
 type ActionHandler = (app: DialogflowApp) => any;
@@ -16,6 +16,6 @@ type ActionHandler = (app: DialogflowApp) => any;
 const intentMap: Map<IntentName, ActionHandler> = new Map();
 
 // Utility intent to check if the backend is up.
-intentMap.set('BACKEND_STATUS', actions.backendStatus);
+intentMap.set("BACKEND_STATUS", actions.backendStatus);
 
 export default intentMap;
