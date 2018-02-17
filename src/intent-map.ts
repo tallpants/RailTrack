@@ -2,7 +2,7 @@ import { DialogflowApp } from "actions-on-google";
 import * as actions from "./actions";
 
 type IntentName = string;
-type ActionHandler = (app: DialogflowApp) => any;
+type ActionHandler = (app: DialogflowApp) => void;
 
 /**
  * Mapping from Dialogflow intents (specifically the action name associated

@@ -20,7 +20,7 @@ app.post("/dialogflow", (request: express.Request, response: express.Response) =
 
   // Use the map defined in `intent-map.ts` to find and run the
   // Appropriate handler function for the request based on the intent.
-  dialogflow.handleRequest(intentMap as Map<string, (app: AssistantApp) => any>);
+  dialogflow.handleRequest(intentMap as Map<string, (app: AssistantApp) => void>);
 });
 
 const defaultPort: number = 8080;
