@@ -9,7 +9,9 @@
     "dev": "nodemon"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "actions-on-google": "^1.8.2",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "export-dir": "^0.1.2",
     "express": "^4.16.2",
@@ -22,6 +24,7 @@
     "@types/node": "^9.4.6",
     "nodemon": "^1.15.0",
     "ts-node": "^4.1.0",
-    "tslint": "^5.9.1"
+    "tslint": "^5.9.1",
+    "tslint-microsoft-contrib": "^5.0.3"
   }
 }

@@ -1,28 +1,27 @@
 // Enable support for the source maps emitted by the TypeScript compiler
 // So that errors and stack traces will point to the right spot in our
 // Source `.ts` files instead of the compiled `.js` files.
-import "source-map-support/register"; // tslint:disable-line
+import "source-map-support/register"; //tslint:disable-line
 
-import express from "express";
+import { AssistantApp, DialogflowApp } from "actions-on-google";
 import bodyParser from "body-parser";
-import { DialogflowApp, AssistantApp } from "actions-on-google";
+import express, { Express, Request, Response } from "express";
 import intentMap from "./intent-map";
 
-const app: express.Express = express();
+const server: Express = express();
 
-// Dialogflow's SDK needs request bodies to be parsed as JSON
-// Before it can use them.
-app.use(bodyParser.json());
+// Dialogflow's SDK needs request bodies to be parsed as JSON before it can use them.
+server.use(bodyParser.json());
 
 // Fulfilment webhook
-app.post("/dialogflow", (request: express.Request, response: express.Response) => {
-  const dialogflow: DialogflowApp = new DialogflowApp({ request, response });
+server.post("/dialogflow", (request: Request, response: Response) => {
+  const app: DialogflowApp = new DialogflowApp({ request, response });
 
-  // Use the map defined in `intent-map.ts` to find and run the
-  // Appropriate handler function for the request based on the intent.
-  dialogflow.handleRequest(intentMap as Map<string, (app: AssistantApp) => void>);
+  // Use the map defined in `intent-map.ts` to find and run the appropriate handler
+  // function for the request based on the intent.
+  app.handleRequest(intentMap as Map<string, (app: AssistantApp) => void>);
 });
 
 const defaultPort: number = 8080;
 const port: number = Number(process.env.PORT) || defaultPort;
-app.listen(port, () => console.log(`App listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
