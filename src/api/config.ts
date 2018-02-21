@@ -8,7 +8,7 @@ const baseURL: string = "https://api.railwayapi.com/v2";
 /**
  * TODO:
  */
-export const key: string = "59x3poqhl7";
+export const key: string = "59x3poqhl7"; // TODO: Externalize this.
 
 /**
  * TODO:
