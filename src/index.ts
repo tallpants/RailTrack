@@ -23,5 +23,6 @@ server.post("/dialogflow", (request: Request, response: Response) => {
 });
 
 const defaultPort: number = 8080;
+
 const port: number = Number(process.env.PORT) || defaultPort;
 server.listen(port, () => console.log(`Listening on port ${port}`));

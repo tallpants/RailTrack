@@ -1,14 +1,23 @@
+/**
+ * Exports the intent handler / action for the PNR status intent.
+ */
+
 import { DialogflowApp } from "actions-on-google";
 import { getPNRStatus, PNRError, PNRStatus } from "../api/pnr";
 
 /**
- * FIXME: Documentation
+ * Extract the PNR number from the intent, get the PNR status, and respond with a
+ * status string -- or if there was an error, respond with a string describing
+ * the error.
  */
 export default async function pnrStatusAction(app: DialogflowApp): Promise<void> {
+  // Extract the PNR number from the intent.
   const pnrNumber: any = app.getArgument("pnr");
 
-  const response = await getPNRStatus(pnrNumber);
+  // Try to get the PNR status from the API.
+  const response: PNRStatus | PNRError = await getPNRStatus(pnrNumber);
 
+  // If there was an error, respond with a string describing the error.
   if (response instanceof PNRError) {
     switch (response.error) {
       case "flushed":
@@ -22,6 +31,7 @@ export default async function pnrStatusAction(app: DialogflowApp): Promise<void>
     }
   }
 
+  // Build a response string with the data from the API response and send it to the user.
   // TODO: Look into refactoring this spaghetti
   if (response instanceof PNRStatus) {
     const date: string = `This journey is scheduled on <say-as interpret-as="date" format="dmy" detail="1">${

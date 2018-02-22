@@ -1,7 +1,7 @@
 import { DialogflowApp } from "actions-on-google";
 
 /**
- * FIXME: Documentation
+ * Tells the user that this server is up.
  */
 export default function backendStatusAction(app: DialogflowApp): void {
   app.tell("The backend is up!");
