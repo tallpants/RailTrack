@@ -6,12 +6,12 @@ import axios, { AxiosInstance } from "axios";
 const baseURL: string = "https://api.railwayapi.com/v2";
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export const key: string = "59x3poqhl7"; // TODO: Externalize this.
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export const httpClient: AxiosInstance = axios.create({
   baseURL

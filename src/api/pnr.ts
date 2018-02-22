@@ -1,12 +1,12 @@
 /**
- * TODO:
+ * FIXME: Documentation
  */
 
 import { AxiosResponse } from "axios";
 import { httpClient, key } from "./config";
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export class PNRStatus {
   public journeyDate: string;
@@ -32,7 +32,7 @@ export class PNRStatus {
 type PNRErrorReason = "notfound" | "flushed" | "invalid";
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export class PNRError {
   public error: PNRErrorReason;
@@ -43,7 +43,7 @@ export class PNRError {
 }
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export async function getPNRStatus(pnrNumber: string): Promise<PNRStatus | PNRError> {
   const response: AxiosResponse<any> = await httpClient.get(`/pnr-status/pnr/${pnrNumber}/apikey/${key}`);

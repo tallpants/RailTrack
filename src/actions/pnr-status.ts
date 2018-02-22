@@ -2,7 +2,7 @@ import { DialogflowApp } from "actions-on-google";
 import { getPNRStatus, PNRError, PNRStatus } from "../api/pnr";
 
 /**
- * TODO:
+ * FIXME: Documentation
  */
 export default async function pnrStatusAction(app: DialogflowApp): Promise<void> {
   const pnrNumber: any = app.getArgument("pnr");
