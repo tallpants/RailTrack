@@ -16,6 +16,7 @@
     "arrow-return-shorthand": true,
     "await-promise": true,
     "binary-expression-operand-order": true,
+    "no-http-string": false,
     "no-backbone-get-set-outside-model": false,
     "callable-types": true,
     "class-name": true,
