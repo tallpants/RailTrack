@@ -12,25 +12,25 @@ import { httpClient, key } from "./config";
  * See: https://railwayapi.com/api/#pnr-status
  */
 interface IPNRResponse {
-  response_code: number;
+  // The API response is full of typos, don't blame me.
+  // http://indianrailapi.com/IndianRail/API/PNRCheck
 
-  doj: string;
-  total_passengers: number;
+  ResponceCode: number;
 
-  from_station: {
-    name: string;
+  DateOfJourny: string;
+  TotalPassenger: number;
+  TrainName: string;
+  TrainNo: string;
+
+  FromStation: {
+    Name: string;
   };
 
-  to_station: {
-    name: string;
+  ToStation: {
+    Name: string;
   };
 
-  train: {
-    name: string;
-    number: string;
-  };
-
-  passengers: Array<{ current_status: string }>;
+  PassengersList: Array<{ CurrentStatus: string }>;
 }
 
 /**
@@ -46,13 +46,13 @@ export class PNRStatus {
   public statuses: Array<string>;
 
   constructor(apiResponse: IPNRResponse) {
-    this.journeyDate = apiResponse.doj;
-    this.numPassengers = apiResponse.total_passengers;
-    this.fromStation = apiResponse.from_station.name;
-    this.toStation = apiResponse.to_station.name;
-    this.trainName = apiResponse.train.name;
-    this.trainNumber = apiResponse.train.number;
-    this.statuses = apiResponse.passengers.map(passenger => passenger.current_status);
+    this.journeyDate = apiResponse.DateOfJourny;
+    this.numPassengers = apiResponse.TotalPassenger;
+    this.fromStation = apiResponse.FromStation.Name;
+    this.toStation = apiResponse.ToStation.Name;
+    this.trainName = apiResponse.TrainName;
+    this.trainNumber = apiResponse.TrainNo;
+    this.statuses = apiResponse.PassengersList.map(passenger => passenger.CurrentStatus);
   }
 }
 
@@ -75,9 +75,9 @@ export class PNRError {
  * a PNRStatus object or PNRError object depending on the API response.
  */
 export async function getPNRStatus(pnrNumber: string): Promise<PNRStatus | PNRError> {
-  const response: AxiosResponse<IPNRResponse> = await httpClient.get(`/pnr-status/pnr/${pnrNumber}/apikey/${key}`);
+  const response: AxiosResponse<IPNRResponse> = await httpClient.get(`/pnrstatus/apikey/${key}/pnr/${pnrNumber}`);
 
-  switch (response.data.response_code) {
+  switch (response.data.ResponceCode) {
     case 404:
       return new PNRError("notfound");
     case 220:
