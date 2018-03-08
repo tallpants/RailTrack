@@ -3,19 +3,19 @@
  * Exports the API key and an Axios HTTP client instance configured to use the base URL.
  */
 
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 
-const baseURL: string = "http://indianrailapi.com/api/v1";
+const baseURL = "http://indianrailapi.com/api/v1";
 
 /**
  * API key for indianrailapi.com
  * On free tier, must be regenerated every 24 hours at http://indianrailapi.com/IndianRail/ApiKey
  */
-export const key: string = "9f757be96528bff318b5093123ce5912"; // TODO: Externalize this.
+export const key = "9f757be96528bff318b5093123ce5912"; // TODO: Externalize this.
 
 /**
  * Axios HTTP client with the base URL configured to railwayapi.com's URL.
  */
-export const httpClient: AxiosInstance = axios.create({
+export const httpClient = axios.create({
   baseURL
 });

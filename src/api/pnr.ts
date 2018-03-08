@@ -1,19 +1,18 @@
 /**
- * Exports the getPNRStatus function and related classes.
+ * Exports the getPNRStatus function.
  */
 
-import { AxiosResponse } from "axios";
 import { httpClient, key } from "./config";
+import { AxiosResponse } from "axios";
 
 /**
  * Interface describing the shape of the railwayapi PNR
  * status response. Only the fields we're actually interested in.
  *
- * See: https://railwayapi.com/api/#pnr-status
+ * http://indianrailapi.com/IndianRail/API/PNRCheck
  */
 interface IPNRResponse {
   // The API response is full of typos, don't blame me.
-  // http://indianrailapi.com/IndianRail/API/PNRCheck
 
   ResponceCode: number;
 
@@ -34,9 +33,10 @@ interface IPNRResponse {
 }
 
 /**
- * Class describing PNR status.
+ * Class that takes the API response and makes an
+ * object describing it.
  */
-export class PNRStatus {
+class PNRStatus {
   public journeyDate: string;
   public numPassengers: number;
   public fromStation: string;
@@ -52,39 +52,29 @@ export class PNRStatus {
     this.toStation = apiResponse.ToStation.Name;
     this.trainName = apiResponse.TrainName;
     this.trainNumber = apiResponse.TrainNo;
-    this.statuses = apiResponse.PassengersList.map(passenger => passenger.CurrentStatus);
+    this.statuses = apiResponse.PassengersList.map(
+      passenger => passenger.CurrentStatus
+    );
   }
 }
 
-// Possible PNR errors.
 type PNRErrorReason = "notfound" | "flushed" | "invalid";
 
-/**
- * Class describing PNR errors.
- */
-export class PNRError {
-  public error: PNRErrorReason;
-
-  constructor(message: PNRErrorReason) {
-    this.error = message;
-  }
-}
-
-/**
- * Talk to the API to get PNR status and return either
- * a PNRStatus object or PNRError object depending on the API response.
- */
-export async function getPNRStatus(pnrNumber: string): Promise<PNRStatus | PNRError> {
-  const response: AxiosResponse<IPNRResponse> = await httpClient.get(`/pnrstatus/apikey/${key}/pnr/${pnrNumber}`);
+export default async function getPNRStatus(
+  pnrNumber: string
+): Promise<{ data?: PNRStatus; error?: PNRErrorReason }> {
+  const response: AxiosResponse<IPNRResponse> = await httpClient.get(
+    `/pnrstatus/apikey/${key}/pnr/${pnrNumber}`
+  );
 
   switch (response.data.ResponceCode) {
     case 404:
-      return new PNRError("notfound");
+      return { data: null, error: "notfound" };
     case 220:
-      return new PNRError("flushed");
+      return { data: null, error: "flushed" };
     case 221:
-      return new PNRError("invalid");
+      return { data: null, error: "invalid" };
     default:
-      return new PNRStatus(response.data);
+      return { data: new PNRStatus(response.data), error: null };
   }
 }
