@@ -1,41 +1,40 @@
-import { httpClient, key } from "./config"
-import { AxiosResponse } from "axios"
-import { error } from "util";
+import { httpClient, key } from "./config";
+import { AxiosResponse } from "axios";
 
-interface IRouteResponse{
+interface IRouteResponse {
+  ResponseCode: number;
 
-    ResponseCode: number
+  TrainName: {
+    Name: string;
+  };
 
-    TrainName: {
-
-        Name: string
-    }
-
-    RouteList: Array<{ FullName: string }>
+  RouteList: Array<{ FullName: string }>;
 }
 
-class RouteStatus{
-    public trainName: string
-    public route: Array<string>
+class RouteStatus {
+  public trainName: string;
+  public route: Array<string>;
 
-    constructor(apiResponse: IRouteResponse){
-        this.trainName = apiResponse.TrainName.Name
-        this.route = apiResponse.RouteList.map( station => station.FullName)
-    }
+  constructor(apiResponse: IRouteResponse) {
+    this.trainName = apiResponse.TrainName.Name;
+    this.route = apiResponse.RouteList.map(station => station.FullName);
+  }
 }
 
-type RouteErrorReason = "not found"
+type RouteErrorReason = "notfound";
 
-export default async function getRouteList(trainNumber: string): Promise<{ data?:RouteStatus; error?:RouteErrorReason }> {
-    const response: AxiosResponse<IRouteResponse> = await httpClient.get(`/pnrstatus/apikey/${key}/trainno/${trainNumber}`);
+export default async function getRouteList(
+  trainNumber: string
+): Promise<{ data?: RouteStatus; error?: RouteErrorReason }> {
+  const response: AxiosResponse<IRouteResponse> = await httpClient.get(
+    `/pnrstatus/apikey/${key}/trainno/${trainNumber}`
+  );
 
-    switch(response.data.ResponseCode)
-    {
-        case 200:
-        return { data: new RouteStatus(response.data), error: null }
+  switch (response.data.ResponseCode) {
+    case 200:
+      return { data: new RouteStatus(response.data), error: null };
 
-        case 404:
-        return { data:null,error:"not found" }
-    }
-    
+    case 404:
+      return { data: null, error: "notfound" };
+  }
 }
