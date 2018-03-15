@@ -39,7 +39,7 @@ export default async function getRouteList(
   trainNumber: string
 ): Promise<{ data?: RouteStatus; error?: RouteErrorReason }> {
   const response: AxiosResponse<IRouteResponse> = await httpClient.get(
-    `/pnrstatus/apikey/${key}/trainno/${trainNumber}`
+    `/trainroute/apikey/${key}/trainno/${trainNumber}`
   );
 
   switch (response.data.ResponseCode) {
