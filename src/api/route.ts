@@ -1,5 +1,13 @@
+/*
+  Exports the getRouteList function - returns the stations that 
+  the train passes through in its route
+*/
+
 import { httpClient, key } from "./config";
 import { AxiosResponse } from "axios";
+/*
+  Interface describing the shape of the railwayapi Route response
+*/
 
 interface IRouteResponse {
   ResponseCode: number;
@@ -10,6 +18,10 @@ interface IRouteResponse {
 
   RouteList: Array<{ FullName: string }>;
 }
+/*
+  Class that takes the API response and creates an object
+  describing it
+*/
 
 class RouteStatus {
   public trainName: string;
