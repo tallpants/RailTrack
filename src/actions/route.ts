@@ -22,13 +22,12 @@ export default async function routeAction(app: DialogflowApp) {
     app.tell("Sorry, there's no train with that number.");
   } else {
     /*
-     * TODO:
-     * (If possible)
-     * 
-     * Only say the name of the train, the source and destination stations,
+     * TODO: Only say the name of the train, the source and destination stations,
      * and the number of stations on the route by voice.
      * 
      * Show the actual list of stations the train is passing through as text.
+     * 
+     * https://developers.google.com/actions/assistant/responses
      */
     const trainName = `The train ${response.data.trainName} `;
     const route = ` passes through the stations ${response.data.stationsOnRoute.join(
