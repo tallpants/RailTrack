@@ -1,47 +1,44 @@
-// Export the intent handler / action for Live Running Status
+/**
+ * Exports the intent handler / action for the live train status intent.
+ */
+
 import { DialogflowApp } from "actions-on-google";
 import getLiveStatus from "../api/live-status";
-/*
-    Extract the trainNumber from the intent, send a request to the API, get
-    the live status of the train. If there was an error, respond
-    with an error message
-*/
-export default async function LiveStatusAction(app: DialogflowApp) {
-  // Extract the trainNumber from the intent
-  const trainNumber: any = app.getArgument("trainNumber");
-  // Get the live status of the train
-  const response = await getLiveStatus(trainNumber);
-  // If there was an error
-  if (response.error) {
-    app.tell(" Sorry! The train number entered is invalid");
-  } else {
-    // Build a response with the data recieved
-    const { minutesLate, isDeparted, currentStationName } = response.data;
-    let location: string;
-    let minLate: string;
-    /* 
-    There are two different responses, if the train is 
-    currently at a station or has left the station
-*/
 
-    // If the train has left the station
-    if (isDeparted) {
-      location = `The train has left ${currentStationName}`;
-      if (minutesLate > 0) {
-        minLate = `It is ${minutesLate} minutes late`;
-      } else {
-        minLate = `It is on time`;
-      }
-    } else {
-      // If the train is currently at a station
-      location = `The train is currently at ${currentStationName}`;
-      if (minutesLate > 0) {
-        minLate = `It is ${minutesLate} minutes late`;
-      } else {
-        minLate = `It is on time`;
-      }
+/**
+ * Extract the train number from the intent, get the current train status
+ * and respond with either a status string or error if the train number
+ * was invalid.
+ */
+export default async function LiveStatusAction(app: DialogflowApp) {
+  // Extract the train number from the intent
+  const trainNumber: any = app.getArgument("trainNumber");
+
+  // Try to get the train status from the API
+  const response = await getLiveStatus(trainNumber);
+
+  // An invalid train number is the only possible error.
+  if (response.error) {
+    app.tell("Sorry, there's no train with that number");
+  } else {
+    // Examples of possible API responses:
+    // "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
+    // "Train has reached Destination and late by 15 minutes."
+    // "CurrentPosition": "Train is currently at Source and late by 0 minutes."
+
+    // TODO: Can we parse this better and generate a nicer response?
+    const {
+      statusString,
+      sourceStationName,
+      destinationStationName
+    } = response.data;
+
+    if (statusString.includes("Source")) {
+      statusString.replace("Source", sourceStationName);
+    } else if (statusString.includes("Destination")) {
+      statusString.replace("Destination", destinationStationName);
     }
 
-    app.tell(`<speak> ${location}.${minLate}.</speak>`);
+    app.tell(`<speak>${statusString}</speak>`);
   }
 }

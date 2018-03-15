@@ -3,33 +3,21 @@ import { AxiosResponse } from "axios";
 
 interface ILiveStatusResponse {
   ResponseCode: number;
-
-  TrainNumber: string;
-
-  CurrentStation: {
-    StationCode: string;
-    StationName: string;
-    IsDeparted: boolean;
-    ScheduleDeparture: string;
-    LateInMinute: number;
-  };
+  CurrentPosition: string;
+  TrainRoute: Array<{ StationName: string }>;
 }
 
 class LiveStatus {
-  public trainNumber: string;
-  public currentStationName: string;
-  public currentStationCode: string;
-  public isDeparted: boolean;
-  public scheduledDepartureTime: string;
-  public minutesLate: number;
+  statusString: string;
+  sourceStationName: string;
+  destinationStationName: string;
 
   constructor(apiResponse: ILiveStatusResponse) {
-    this.trainNumber = apiResponse.TrainNumber;
-    this.currentStationName = apiResponse.CurrentStation.StationName;
-    this.currentStationCode = apiResponse.CurrentStation.StationCode;
-    this.isDeparted = apiResponse.CurrentStation.IsDeparted;
-    this.scheduledDepartureTime = apiResponse.CurrentStation.ScheduleDeparture;
-    this.minutesLate = apiResponse.CurrentStation.LateInMinute;
+    this.statusString = apiResponse.CurrentPosition;
+
+    const routeArray = apiResponse.TrainRoute;
+    this.sourceStationName = routeArray[0].StationName;
+    this.destinationStationName = routeArray[routeArray.length - 1].StationName;
   }
 }
 
@@ -61,6 +49,7 @@ function formatDate(d: Date): string {
   return `${year}${padZero(month)}${padZero(day)}`;
 }
 
+// Prepends a 0 if the number is one digit long.
 // 9 -> 09, but 13 -> 13
 function padZero(num: number): string {
   if (num < 10) {
