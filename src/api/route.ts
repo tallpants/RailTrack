@@ -25,17 +25,19 @@ interface IRouteResponse {
 
 class RouteStatus {
   public trainName: string;
-  public route: Array<string>;
+  public stationsOnRoute: Array<string>;
 
   constructor(apiResponse: IRouteResponse) {
     this.trainName = apiResponse.TrainName.Name;
-    this.route = apiResponse.RouteList.map(station => station.FullName);
+    this.stationsOnRoute = apiResponse.RouteList.map(
+      station => station.FullName
+    );
   }
 }
 
 type RouteErrorReason = "notfound";
 
-export default async function getRouteList(
+export default async function getRoute(
   trainNumber: string
 ): Promise<{ data?: RouteStatus; error?: RouteErrorReason }> {
   const response: AxiosResponse<IRouteResponse> = await httpClient.get(

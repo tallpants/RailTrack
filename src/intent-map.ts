@@ -1,8 +1,12 @@
 import backendStatusAction from "./actions/backend-status";
 import pnrStatusAction from "./actions/pnr-status";
+import liveStatusAction from "./actions/live-status";
+import routeAction from "./actions/route";
 
 const backendStatusIntent = "BACKEND_STATUS";
 const pnrStatusIntent = "PNR_STATUS";
+const liveStatusIntent = "LIVE_STATUS";
+const routeIntent = "ROUTE";
 
 /**
  * Mapping from Dialogflow intents (specifically the action name associated
@@ -15,10 +19,9 @@ const pnrStatusIntent = "PNR_STATUS";
  */
 const intentMap = new Map();
 
-// Utility intent to check if the backend is up.
-intentMap.set(backendStatusIntent, backendStatusAction);
-
-// Return the PNR status for the PNR supplied by the user.
+intentMap.set(backendStatusIntent, backendStatusAction); // Utility intent to check if the backend is up.
 intentMap.set(pnrStatusIntent, pnrStatusAction);
+intentMap.set(liveStatusIntent, liveStatusAction);
+intentMap.set(routeIntent, routeAction);
 
 export default intentMap;

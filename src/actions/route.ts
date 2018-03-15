@@ -1,7 +1,10 @@
-//Export the intent handler / action for Route List intent
+/**
+ * Exports the intent handler / action for the train route intent.
+ */
 
 import { DialogflowApp } from "actions-on-google";
-import getRouteList from "../api/route";
+import getRoute from "../api/route";
+
 /*
     Extract the trainNumber from the intent, send a request to the API, get
     the route list of that particular train. If there was an error, respond 
@@ -12,7 +15,7 @@ export default async function routeAction(app: DialogflowApp) {
   const trainNumber: any = app.getArgument("trainNumber");
 
   // Get the route list of the train
-  const response = await getRouteList(trainNumber);
+  const response = await getRoute(trainNumber);
 
   // If there was an error
   if (response.error) {
@@ -20,7 +23,7 @@ export default async function routeAction(app: DialogflowApp) {
   } else {
     // Build a response with the data recieved and send it to the user
     const trainName = `The train ${response.data.trainName} `;
-    const route = ` passes through the stations ${response.data.route.join(
+    const route = ` passes through the stations ${response.data.stationsOnRoute.join(
       ","
     )} `;
 
