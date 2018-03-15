@@ -5,23 +5,31 @@
 import { DialogflowApp } from "actions-on-google";
 import getRoute from "../api/route";
 
-/*
-    Extract the trainNumber from the intent, send a request to the API, get
-    the route list of that particular train. If there was an error, respond 
-    with an error message
-*/
+/**
+ * Extract the train number from the intent, get the route of the train,
+ * and respond with the stations on the train route, or an error if the
+ * train number was invalid.
+ */
 export default async function routeAction(app: DialogflowApp) {
   // Extract the trainNumber from the intent
   const trainNumber: any = app.getArgument("trainNumber");
 
-  // Get the route list of the train
+  // Get the route of the train
   const response = await getRoute(trainNumber);
 
-  // If there was an error
+  // An invalid train number is the only possible error.
   if (response.error) {
-    app.tell("Sorry! The train number entered does not exist");
+    app.tell("Sorry, there's no train with that number.");
   } else {
-    // Build a response with the data recieved and send it to the user
+    /*
+     * TODO:
+     * (If possible)
+     * 
+     * Only say the name of the train, the source and destination stations,
+     * and the number of stations on the route by voice.
+     * 
+     * Show the actual list of stations the train is passing through as text.
+     */
     const trainName = `The train ${response.data.trainName} `;
     const route = ` passes through the stations ${response.data.stationsOnRoute.join(
       ","

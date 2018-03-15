@@ -19,12 +19,14 @@ export default async function LiveStatusAction(app: DialogflowApp) {
 
   // An invalid train number is the only possible error.
   if (response.error) {
-    app.tell("Sorry, there's no train with that number");
+    app.tell("Sorry, there's no train with that number.");
   } else {
-    // Examples of possible API responses:
-    // "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
-    // "Train has reached Destination and late by 15 minutes."
-    // "CurrentPosition": "Train is currently at Source and late by 0 minutes."
+    /*
+     * Examples of possible API responses:
+     * "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
+     * "Train has reached Destination and late by 15 minutes."
+     * "CurrentPosition": "Train is currently at Source and late by 0 minutes."
+     */
 
     // TODO: Can we parse this better and generate a nicer response?
     const {
