@@ -22,13 +22,12 @@ export default async function LiveStatusAction(app: DialogflowApp) {
     app.tell("Sorry, there's no train with that number.");
   } else {
     /*
-     * Examples of possible API responses:
+     * Examples of possible statusString from API response:
+     * 
      * "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
      * "Train has reached Destination and late by 15 minutes."
-     * "CurrentPosition": "Train is currently at Source and late by 0 minutes."
+     * "Train is currently at Source and late by 0 minutes."
      */
-
-    // TODO: Can we parse this better and generate a nicer response?
     const {
       statusString,
       sourceStationName,
