@@ -27,13 +27,19 @@ interface IRouteResponse {
  */
 class RouteStatus {
   public trainName: string;
-  public stationsOnRoute: Array<string>;
+  public source: string;
+  public midPoint: string;
+  public destination: string;
 
   constructor(apiResponse: IRouteResponse) {
-    this.trainName = apiResponse.TrainName.Name;
-    this.stationsOnRoute = apiResponse.RouteList.map(
+    const stationsOnRoute = apiResponse.RouteList.map(
       station => station.FullName
     );
+
+    this.trainName = apiResponse.TrainName.Name;
+    this.source = stationsOnRoute[0];
+    this.destination = stationsOnRoute[stationsOnRoute.length - 1];
+    this.midPoint = stationsOnRoute[Math.trunc(stationsOnRoute.length / 2)];
   }
 }
 

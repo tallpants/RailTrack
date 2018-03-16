@@ -22,18 +22,14 @@ export default async function routeAction(app: DialogflowApp) {
     app.tell("Sorry, there's no train with that number.");
   } else {
     /*
-     * TODO: Only say the name of the train, the source and destination stations,
-     * and the number of stations on the route by voice.
+     * The list of stations is too long to display. So we only
+     * tell the source, destination, and the mid point.
      * 
-     * Show the actual list of stations the train is passing through as text.
-     * 
-     * https://developers.google.com/actions/assistant/responses
+     * Ex: "Bangalore to Delhi via Mumbai"
      */
-    const trainName = `The train ${response.data.trainName} `;
-    const route = ` passes through the stations ${response.data.stationsOnRoute.join(
-      ","
-    )} `;
-
-    app.tell(`<speak> ${trainName} ${route}.</speak>`);
+    const { trainName, source, destination, midPoint } = response.data;
+    app.tell(
+      `<speak>${trainName} goes from ${source} to ${destination}, via ${midPoint}.</speak>`
+    );
   }
 }
