@@ -34,7 +34,7 @@ export default async function routeAction(app: DialogflowApp) {
     const midPoint = stationsOnRoute[Math.trunc(stationsOnRoute.length / 2)];
     const numStations = stationsOnRoute.length - 2;
 
-    app.tell(
+    app.ask(
       `<speak>${trainName} number <say-as interpret-as="characters">${trainNumber}</say-as> goes from ${source} to ${destination}, via ${midPoint}. It passes through ${numStations} stations on the way.</speak>`
     );
   }

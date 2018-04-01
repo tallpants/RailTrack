@@ -53,5 +53,5 @@ export default async function LiveStatusAction(app: DialogflowApp) {
     statusString = statusString.replace("Destination", destinationStationName);
   }
 
-  app.tell(`<speak>${statusString}</speak>`);
+  app.ask(`<speak>${statusString}</speak>`);
 }

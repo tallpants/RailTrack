@@ -63,7 +63,7 @@ export default async function pnrStatusAction(app: DialogflowApp) {
         .join(", ")}`;
     }
 
-    app.tell(
+    app.ask(
       `<speak>${date}, ${route}, ${train}. ${numPassengers}. ${statuses}.</speak>`
     );
   }
