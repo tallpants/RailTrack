@@ -9,7 +9,7 @@ import { AxiosResponse } from "axios";
  * Interface describing the shape of the API response. Only the fields
  * we're interested in.
  *
- * http://indianrailapi.com/IndianRail/API/TrainRoute
+ * https://railwayapi.com/api/#train-route
  */
 interface IRouteResponse {
   response_code: number;
