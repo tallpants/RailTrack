@@ -11,7 +11,13 @@ const baseURL = "https://api.railwayapi.com/v2";
  * API key for railwayapi.com
  */
 export const key = process.env.API_KEY;
-console.log(key);
+if (key === undefined) {
+  throw new Error(`
+    API key missing.
+    Get an API key from railwayapi.com,
+    and make it available as an environment variable with the name API_KEY.
+  `);
+}
 
 /**
  * Axios HTTP client with the base URL configured to railwayapi.com's URL.
