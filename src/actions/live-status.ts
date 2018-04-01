@@ -19,27 +19,32 @@ export default async function LiveStatusAction(app: DialogflowApp) {
 
   // An invalid train number is the only possible error.
   if (response.error) {
-    app.tell("Sorry, there's no train with that number.");
-  } else {
-    /*
-     * Examples of possible statusString from API response:
-     * 
-     * "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
-     * "Train has reached Destination and late by 15 minutes."
-     * "Train is currently at Source and late by 0 minutes."
-     */
-    const {
-      statusString,
-      sourceStationName,
-      destinationStationName
-    } = response.data;
-
-    if (statusString.includes("Source")) {
-      statusString.replace("Source", sourceStationName);
-    } else if (statusString.includes("Destination")) {
-      statusString.replace("Destination", destinationStationName);
+    switch (response.error) {
+      case "notfound":
+        return app.tell("Sorry, there's no train with that number.");
+      case "notrunning":
+        return app.tell("This train is not running today.");
     }
-
-    app.tell(`<speak>${statusString}</speak>`);
   }
+
+  /*
+   * Examples of possible statusString from API response:
+   * 
+   * "Train departed from SIRHIND JN(SIR) and late by 16 minutes."
+   * "Train has reached Destination and late by 15 minutes."
+   * "Train is currently at Source and late by 0 minutes."
+   */
+  let {
+    statusString,
+    sourceStationName,
+    destinationStationName
+  } = response.data;
+
+  if (statusString.includes("Source")) {
+    statusString = statusString.replace("Source", sourceStationName);
+  } else if (statusString.includes("Destination")) {
+    statusString = statusString.replace("Destination", destinationStationName);
+  }
+
+  app.tell(`<speak>${statusString}</speak>`);
 }

@@ -2,9 +2,9 @@ import { httpClient, key } from "./config";
 import { AxiosResponse } from "axios";
 
 interface ILiveStatusResponse {
-  ResponseCode: number;
-  CurrentPosition: string;
-  TrainRoute: Array<{ StationName: string }>;
+  response_code: number;
+  position: string;
+  route: Array<{ station: { name: string } }>;
 }
 
 class LiveStatus {
@@ -13,15 +13,16 @@ class LiveStatus {
   destinationStationName: string;
 
   constructor(apiResponse: ILiveStatusResponse) {
-    this.statusString = apiResponse.CurrentPosition;
+    this.statusString = apiResponse.position;
 
-    const routeArray = apiResponse.TrainRoute;
-    this.sourceStationName = routeArray[0].StationName;
-    this.destinationStationName = routeArray[routeArray.length - 1].StationName;
+    const routeArray = apiResponse.route;
+    this.sourceStationName = routeArray[0].station.name;
+    this.destinationStationName =
+      routeArray[routeArray.length - 1].station.name;
   }
 }
 
-type LiveStatusErrorReason = "notfound";
+type LiveStatusErrorReason = "notfound" | "notrunning";
 
 export default async function getLiveStatus(
   trainNumber: string
@@ -29,24 +30,26 @@ export default async function getLiveStatus(
   const datestring = formatDate(new Date());
 
   const response: AxiosResponse<ILiveStatusResponse> = await httpClient.get(
-    `/livetrainstatus/apikey/${key}/trainno/${trainNumber}/dateofjourny/${datestring}`
+    `/live/train/${trainNumber}/date/${datestring}/apikey/${key}/`
   );
 
-  switch (response.data.ResponseCode) {
+  switch (response.data.response_code) {
     case 404:
       return { data: null, error: "notfound" };
+    case 210:
+      return { data: null, error: "notrunning" };
     default:
       return { data: new LiveStatus(response.data), error: null };
   }
 }
 
-// Takes a Date object and returns a 'yyyymmdd' date string.
+// Takes a Date object and returns a 'dd-mm-yyyy' date string.
 function formatDate(d: Date): string {
   const day = d.getDate();
-  const month = d.getMonth();
+  const month = d.getMonth() + 1;
   const year = d.getFullYear();
 
-  return `${year}${padZero(month)}${padZero(day)}`;
+  return `${padZero(day)}-${padZero(month)}-${year}`;
 }
 
 // Prepends a 0 if the number is one digit long.

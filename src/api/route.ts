@@ -12,13 +12,13 @@ import { AxiosResponse } from "axios";
  * http://indianrailapi.com/IndianRail/API/TrainRoute
  */
 interface IRouteResponse {
-  ResponseCode: number;
+  response_code: number;
 
-  TrainName: {
-    Name: string;
+  train: {
+    name: string;
   };
 
-  RouteList: Array<{ FullName: string }>;
+  route: Array<{ station: { name: string } }>;
 }
 
 /**
@@ -30,10 +30,8 @@ class RouteStatus {
   public stationsOnRoute: Array<string>;
 
   constructor(apiResponse: IRouteResponse) {
-    this.trainName = apiResponse.TrainName.Name;
-    this.stationsOnRoute = apiResponse.RouteList.map(
-      station => station.FullName
-    );
+    this.trainName = apiResponse.train.name;
+    this.stationsOnRoute = apiResponse.route.map(stop => stop.station.name);
   }
 }
 
@@ -43,10 +41,10 @@ export default async function getRoute(
   trainNumber: string
 ): Promise<{ data?: RouteStatus; error?: RouteErrorReason }> {
   const response: AxiosResponse<IRouteResponse> = await httpClient.get(
-    `/trainroute/apikey/${key}/trainno/${trainNumber}`
+    `/route/train/${trainNumber}/apikey/${key}`
   );
 
-  switch (response.data.ResponseCode) {
+  switch (response.data.response_code) {
     case 200:
       return { data: new RouteStatus(response.data), error: null };
 

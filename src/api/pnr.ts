@@ -9,27 +9,28 @@ import { AxiosResponse } from "axios";
  * Interface describing the shape of the railwayapi PNR
  * status response. Only the fields we're actually interested in.
  *
- * http://indianrailapi.com/IndianRail/API/PNRCheck
+ * https://railwayapi.com/api/#pnr-status
  */
 interface IPNRResponse {
-  // The API response is full of typos, don't blame me.
+  response_code: number;
 
-  ResponceCode: number;
+  doj: string;
+  total_passengers: number;
 
-  DateOfJourny: string;
-  TotalPassenger: number;
-  TrainName: string;
-  TrainNo: string;
-
-  FromStation: {
-    Name: string;
+  train: {
+    name: string;
+    number: string;
   };
 
-  ToStation: {
-    Name: string;
+  from_station: {
+    name: string;
   };
 
-  PassengersList: Array<{ CurrentStatus: string }>;
+  to_station: {
+    name: string;
+  };
+
+  passengers: Array<{ current_status: string }>;
 }
 
 /**
@@ -46,14 +47,14 @@ class PNRStatus {
   public statuses: Array<string>;
 
   constructor(apiResponse: IPNRResponse) {
-    this.journeyDate = apiResponse.DateOfJourny;
-    this.numPassengers = apiResponse.TotalPassenger;
-    this.fromStation = apiResponse.FromStation.Name;
-    this.toStation = apiResponse.ToStation.Name;
-    this.trainName = apiResponse.TrainName;
-    this.trainNumber = apiResponse.TrainNo;
-    this.statuses = apiResponse.PassengersList.map(
-      passenger => passenger.CurrentStatus
+    this.journeyDate = apiResponse.doj;
+    this.numPassengers = apiResponse.total_passengers;
+    this.fromStation = apiResponse.from_station.name;
+    this.toStation = apiResponse.to_station.name;
+    this.trainName = apiResponse.train.name;
+    this.trainNumber = apiResponse.train.number;
+    this.statuses = apiResponse.passengers.map(
+      passenger => passenger.current_status
     );
   }
 }
@@ -64,11 +65,14 @@ export default async function getPNRStatus(
   pnrNumber: string
 ): Promise<{ data?: PNRStatus; error?: PNRErrorReason }> {
   const response: AxiosResponse<IPNRResponse> = await httpClient.get(
-    `/pnrstatus/apikey/${key}/pnr/${pnrNumber}`
+    `/pnr-status/pnr/${pnrNumber}/apikey/${key}`
   );
 
-  switch (response.data.ResponceCode) {
+  switch (response.data.response_code) {
+    case 200:
+      return { data: new PNRStatus(response.data), error: null };
     case 404:
+    case 405:
       return { data: null, error: "notfound" };
     case 220:
       return { data: null, error: "flushed" };
