@@ -16,6 +16,7 @@ interface IRouteResponse {
 
   train: {
     name: string;
+    number: string;
   };
 
   route: Array<{ station: { name: string } }>;
@@ -27,10 +28,12 @@ interface IRouteResponse {
  */
 class RouteStatus {
   public trainName: string;
+  public trainNumber: string;
   public stationsOnRoute: Array<string>;
 
   constructor(apiResponse: IRouteResponse) {
     this.trainName = apiResponse.train.name;
+    this.trainNumber = apiResponse.train.number;
     this.stationsOnRoute = apiResponse.route.map(stop => stop.station.name);
   }
 }

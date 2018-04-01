@@ -27,14 +27,15 @@ export default async function routeAction(app: DialogflowApp) {
      * 
      * Ex: "Bangalore to Delhi via Mumbai"
      */
-    const { trainName, stationsOnRoute } = response.data;
+    const { trainName, trainNumber, stationsOnRoute } = response.data;
 
     const source = stationsOnRoute[0];
     const destination = stationsOnRoute[stationsOnRoute.length - 1];
     const midPoint = stationsOnRoute[Math.trunc(stationsOnRoute.length / 2)];
+    const numStations = stationsOnRoute.length - 2;
 
     app.tell(
-      `<speak>${trainName} goes from ${source} to ${destination}, via ${midPoint}.</speak>`
+      `<speak>${trainName} number <say-as interpret-as="characters">${trainNumber}</say-as> goes from ${source} to ${destination}, via ${midPoint}. It passes through ${numStations} stations on the way.</speak>`
     );
   }
 }

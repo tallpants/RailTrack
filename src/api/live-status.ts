@@ -3,16 +3,28 @@ import { AxiosResponse } from "axios";
 
 interface ILiveStatusResponse {
   response_code: number;
+
   position: string;
+
+  train: {
+    number: string;
+    name: string;
+  };
+
   route: Array<{ station: { name: string } }>;
 }
 
 class LiveStatus {
+  trainName: string;
+  trainNumber: string;
   statusString: string;
   sourceStationName: string;
   destinationStationName: string;
 
   constructor(apiResponse: ILiveStatusResponse) {
+    this.trainName = apiResponse.train.name;
+    this.trainNumber = apiResponse.train.number;
+
     this.statusString = apiResponse.position;
 
     const routeArray = apiResponse.route;

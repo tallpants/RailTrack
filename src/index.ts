@@ -23,5 +23,8 @@ server.post("/dialogflow", (request, response) => {
   app.handleRequest(intentMap);
 });
 
+// Health check endpoint.
+server.get("/ping", (_, response) => response.send("pong"));
+
 const port = process.env.PORT || 8080;
 server.listen(port, () => console.log(`Listening on port ${port}`));

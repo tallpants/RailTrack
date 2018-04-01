@@ -35,10 +35,17 @@ export default async function LiveStatusAction(app: DialogflowApp) {
    * "Train is currently at Source and late by 0 minutes."
    */
   let {
+    trainName,
+    trainNumber: trainno,
     statusString,
     sourceStationName,
     destinationStationName
   } = response.data;
+
+  statusString = statusString.replace(
+    "Train",
+    `${trainName} number <say-as interpret-as="characters">${trainno}</say-as>`
+  );
 
   if (statusString.includes("Source")) {
     statusString = statusString.replace("Source", sourceStationName);
