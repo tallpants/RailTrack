@@ -78,7 +78,5 @@ export default async function getPNRStatus(
       return { data: null, error: "flushed" };
     case 221:
       return { data: null, error: "invalid" };
-    default:
-      return { data: new PNRStatus(response.data), error: null };
   }
 }

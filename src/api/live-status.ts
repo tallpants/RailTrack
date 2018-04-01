@@ -46,12 +46,12 @@ export default async function getLiveStatus(
   );
 
   switch (response.data.response_code) {
+    case 200:
+      return { data: new LiveStatus(response.data), error: null };
     case 404:
       return { data: null, error: "notfound" };
     case 210:
       return { data: null, error: "notrunning" };
-    default:
-      return { data: new LiveStatus(response.data), error: null };
   }
 }
 

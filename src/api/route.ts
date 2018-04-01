@@ -50,7 +50,6 @@ export default async function getRoute(
   switch (response.data.response_code) {
     case 200:
       return { data: new RouteStatus(response.data), error: null };
-
     case 404:
       return { data: null, error: "notfound" };
   }
