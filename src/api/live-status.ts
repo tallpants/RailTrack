@@ -58,7 +58,7 @@ export default async function getLiveStatus(
 // Takes a Date object and returns a 'dd-mm-yyyy' date string.
 function formatDate(d: Date): string {
   const day = d.getDate();
-  const month = d.getMonth() + 1;
+  const month = d.getMonth() + 1; // The month number returned by getMonth() is 0 indexed.
   const year = d.getFullYear();
 
   return `${padZero(day)}-${padZero(month)}-${year}`;
