@@ -3,6 +3,9 @@
 // Source `.ts` files instead of the compiled `.js` files.
 import "source-map-support/register";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import { DialogflowApp } from "actions-on-google";
 import bodyParser from "body-parser";
 import express from "express";
