@@ -23,7 +23,12 @@ server.post("/dialogflow", (request, response) => {
 
   // Use the map defined in `intent-map.ts` to find and run the appropriate handler
   // function for the request based on the intent.
-  app.handleRequest(intentMap);
+  try {
+    app.handleRequest(intentMap);
+  } catch (e) {
+    console.error(e);
+    app.ask('Sorry, something went wrong, could you ask me that again?');
+  }
 });
 
 // Health check endpoint.
