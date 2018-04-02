@@ -26,8 +26,8 @@ server.post("/dialogflow", (request, response) => {
   try {
     app.handleRequest(intentMap);
   } catch (e) {
-    console.error(e);
-    app.ask('Sorry, something went wrong, could you ask me that again?');
+    console.error(e.stack);
+    app.ask("Sorry, something went wrong, could you ask me that again?");
   }
 });
 
