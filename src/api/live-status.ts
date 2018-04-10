@@ -56,7 +56,7 @@ export default async function getLiveStatus(
 }
 
 // Takes a Date object and returns a 'dd-mm-yyyy' date string.
-function formatDate(d: Date): string {
+export function formatDate(d: Date): string {
   const day = d.getDate();
   const month = d.getMonth() + 1; // The month number returned by getMonth() is 0 indexed.
   const year = d.getFullYear();
@@ -66,7 +66,7 @@ function formatDate(d: Date): string {
 
 // Prepends a 0 if the number is one digit long.
 // 9 -> 09, but 13 -> 13
-function padZero(num: number): string {
+export function padZero(num: number): string {
   if (num < 10) {
     return `0${num}`;
   }
