@@ -33,7 +33,6 @@ export default async function pnrStatusAction(app: DialogflowApp) {
     }
   } else {
     // Build a response string with the data from the API response and send it to the user.
-    // TODO: Look into refactoring this spaghettij
     const date: string = `This journey is scheduled on <say-as interpret-as="date" format="dmy" detail="1">${
       response.data.journeyDate
     }</say-as>`;
