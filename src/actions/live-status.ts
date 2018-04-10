@@ -17,7 +17,6 @@ export default async function LiveStatusAction(app: DialogflowApp) {
   // Try to get the train status from the API
   const response = await getLiveStatus(trainNumber);
 
-  // An invalid train number is the only possible error.
   if (response.error) {
     switch (response.error) {
       case "notfound":
