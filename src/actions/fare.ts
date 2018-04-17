@@ -1,46 +1,40 @@
 import { DialogflowApp } from "actions-on-google";
 import getFare from "../api/fare";
 
-export default async function FareAction(app: DialogflowApp) {
-  /*
-    TODO: Get the source and destination with a DB Access; classCode and age with a prompt
+export default async function checkFareAction(app: DialogflowApp) {
+  /* 
+    TODO: A DB access for the train number,source and destination codes
   */
-
-  const trainNumber: string = "";
-  const source: string = "";
-  const destination: string = "";
-  const classCode: any = app.getArgument("classCode");
-  const quota: string = "GN";
+  const source: any = app.getArgument("from");
+  const destination: any = app.getArgument("to");
+  const class_code: any = app.getArgument("class_code");
+  const trainNumber: any = app.getArgument("trainNumber");
   const age: any = app.getArgument("age");
 
   const response = await getFare(
-    trainNumber,
     source,
     destination,
-    classCode,
-    quota,
+    trainNumber,
+    class_code,
     age
   );
 
   if (response.error) {
-    app.tell(`Sorry,Couldn't find the information you were looking for`);
+    switch (response.error) {
+      case "notfound":
+        return app.tell(
+          "Sorry, the data you were looking for could not be found"
+        );
+      case "classnotpresent":
+        return app.tell(
+          "Sorry, the class that you entered is not present in this train."
+        );
+    }
   } else {
-    const { Source, Destination, TrainName } = response.data;
+    const { trainName, className, source, destination, fare } = response.data;
 
-    /*
-      Build a better response later
-      
-    */
-    const journey: string = ` The journey is from ${Source} to ${Destination} in ${TrainName}`;
-
-    let fares: string;
-    let code: string;
-    let name: string;
-
-    name = ` For ${response.data.Names.map(name => name)} the fares are `;
-    fares = `${response.data.Fares.map(fare => fare)} respectively`;
-    code = `${response.data.Codes.map(code => code)}`;
-
-    app.tell(`<speak> ${journey}. ${name}: ${fares}.`);
+    app.ask(
+      `The fare for ${trainName}(${className}) from ${source} to ${destination} is ${fare}.`
+    );
   }
 }

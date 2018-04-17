@@ -1,61 +1,62 @@
 import { httpClient, key } from "./config";
 import { AxiosResponse } from "axios";
-import { formatDate, padZero } from "./live-status";
+import { formatDate } from "./live-status";
 
-interface IFareResponse {
-  ResponseCode: number;
-  Train: {
-    Name: string;
+interface IFare {
+  response_code: number;
+  from_station: {
+    name: string;
   };
-  From: {
-    Name: string;
+  to_station: {
+    name: string;
   };
-  To: {
-    Name: string;
+  train: {
+    name: string;
   };
-  Fare: {
-    Codes: Array<{ Code: string }>;
-    Names: Array<{ Name: string }>;
-    Fares: Array<{ Fare: string }>;
+  journey_class: {
+    name: string;
   };
+  fare: string;
 }
-class Fare {
-  public Source: string;
-  public Destination: string;
-  public TrainName: string;
-  public Codes: Array<string>;
-  public Names: Array<string>;
-  public Fares: Array<string>;
 
-  constructor(apiResponse: IFareResponse) {
-    this.Source = apiResponse.From.Name;
-    this.Destination = apiResponse.From.Name;
-    this.Codes = apiResponse.Fare.Codes.map(codes => codes.Code);
-    this.Names = apiResponse.Fare.Names.map(names => names.Name);
-    this.Fares = apiResponse.Fare.Fares.map(fares => fares.Fare);
+class Fare {
+  public source: string;
+  public destination: string;
+  public className: string;
+  public trainName: string;
+  public fare: string;
+  constructor(apiResponse: IFare) {
+    this.source = apiResponse.from_station.name;
+    this.destination = apiResponse.to_station.name;
+    this.trainName = apiResponse.train.name;
+    this.className = apiResponse.journey_class.name;
+    this.fare = apiResponse.fare;
   }
 }
 
-type FareErrorReason = "notfound";
+type FareErrorReason = "notfound" | "classnotpresent";
 
-export default async function getFare(
+export default async function checkFare(
+  source_code: string,
+  destination_code: string,
   trainNumber: string,
-  source: string,
-  destination: string,
-  classCode: string,
-  quota: string,
-  age: string
+  class_code: string,
+  age: number
 ): Promise<{ data?: Fare; error?: FareErrorReason }> {
   const datestring = formatDate(new Date());
-  const response: AxiosResponse<IFareResponse> = await httpClient.get(
-    `/trainfare/apikey/${key}/trainno/${trainNumber}/dateofjourny/${datestring}/
-    source/${source}/destination/${destination}/age/${age}/quota/${quota}/classcode/${classCode}/`
-  );
+  const quota = "GN";
+  const response: AxiosResponse<
+    IFare
+  > = await httpClient.get(`/fare/train/${trainNumber}/source/${source_code}
+  /dest/${destination_code}/age/${age}/pref/${class_code}/quota/${quota}
+  /date/${datestring}/apikey/${key}/`);
 
-  switch (response.data.ResponseCode) {
+  switch (response.data.response_code) {
     case 404:
       return { data: null, error: "notfound" };
-    default:
+    case 211:
+      return { data: null, error: "classnotpresent" };
+    case 200:
       return { data: new Fare(response.data), error: null };
   }
 }
