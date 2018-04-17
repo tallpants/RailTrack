@@ -2,8 +2,8 @@
  * Exports the intent handler / action for the train route intent.
  */
 
-import { DialogflowApp } from "actions-on-google";
-import getRoute from "../api/route";
+import { DialogflowApp } from 'actions-on-google';
+import getRoute from '../api/route';
 
 /**
  * Extract the train number from the intent, get the route of the train,
@@ -12,7 +12,7 @@ import getRoute from "../api/route";
  */
 export default async function routeAction(app: DialogflowApp) {
   // Extract the trainNumber from the intent
-  const trainNumber: any = app.getArgument("trainNumber");
+  const trainNumber: any = app.getArgument('trainNumber');
 
   // Get the route of the train
   const response = await getRoute(trainNumber);
@@ -24,7 +24,7 @@ export default async function routeAction(app: DialogflowApp) {
     /*
      * The list of stations is too long to display. So we only
      * tell the source, destination, and the mid point.
-     * 
+     *
      * Ex: "Bangalore to Delhi via Mumbai"
      */
     const { trainName, trainNumber, stationsOnRoute } = response.data;
@@ -35,7 +35,7 @@ export default async function routeAction(app: DialogflowApp) {
     const numStations = stationsOnRoute.length - 2;
 
     app.ask(
-      `<speak>${trainName} number <say-as interpret-as="characters">${trainNumber}</say-as> goes from ${source} to ${destination}, via ${midPoint}. It passes through ${numStations} stations on the way.</speak>`
+      `<speak>${trainName} number <say-as interpret-as="characters">${trainNumber}</say-as> goes from ${source} to ${destination}, via ${midPoint}. It passes through ${numStations} stations on the way.</speak>`,
     );
   }
 }

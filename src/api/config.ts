@@ -3,9 +3,9 @@
  * Exports the API key and an Axios HTTP client instance configured to use the base URL.
  */
 
-import axios from "axios";
+import axios from 'axios';
 
-const baseURL = "https://api.railwayapi.com/v2";
+const baseURL = 'https://api.railwayapi.com/v2';
 
 /**
  * API key for railwayapi.com
@@ -23,5 +23,5 @@ if (key === undefined) {
  * Axios HTTP client with the base URL configured to railwayapi.com's URL.
  */
 export const httpClient = axios.create({
-  baseURL
+  baseURL,
 });

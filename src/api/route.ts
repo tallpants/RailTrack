@@ -2,8 +2,8 @@
  * Exports the getRoute function.
  */
 
-import { httpClient, key } from "./config";
-import { AxiosResponse } from "axios";
+import { httpClient, key } from './config';
+import { AxiosResponse } from 'axios';
 
 /**
  * Interface describing the shape of the API response. Only the fields
@@ -38,19 +38,19 @@ class RouteStatus {
   }
 }
 
-type RouteErrorReason = "notfound";
+type RouteErrorReason = 'notfound';
 
 export default async function getRoute(
-  trainNumber: string
+  trainNumber: string,
 ): Promise<{ data?: RouteStatus; error?: RouteErrorReason }> {
   const response: AxiosResponse<IRouteResponse> = await httpClient.get(
-    `/route/train/${trainNumber}/apikey/${key}`
+    `/route/train/${trainNumber}/apikey/${key}`,
   );
 
   switch (response.data.response_code) {
     case 200:
       return { data: new RouteStatus(response.data), error: null };
     case 404:
-      return { data: null, error: "notfound" };
+      return { data: null, error: 'notfound' };
   }
 }

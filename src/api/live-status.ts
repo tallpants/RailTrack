@@ -1,5 +1,5 @@
-import { httpClient, key } from "./config";
-import { AxiosResponse } from "axios";
+import { httpClient, key } from './config';
+import { AxiosResponse } from 'axios';
 
 interface ILiveStatusResponse {
   response_code: number;
@@ -34,24 +34,24 @@ class LiveStatus {
   }
 }
 
-type LiveStatusErrorReason = "notfound" | "notrunning";
+type LiveStatusErrorReason = 'notfound' | 'notrunning';
 
 export default async function getLiveStatus(
-  trainNumber: string
+  trainNumber: string,
 ): Promise<{ data?: LiveStatus; error?: LiveStatusErrorReason }> {
   const datestring = formatDate(new Date());
 
   const response: AxiosResponse<ILiveStatusResponse> = await httpClient.get(
-    `/live/train/${trainNumber}/date/${datestring}/apikey/${key}/`
+    `/live/train/${trainNumber}/date/${datestring}/apikey/${key}/`,
   );
 
   switch (response.data.response_code) {
     case 200:
       return { data: new LiveStatus(response.data), error: null };
     case 404:
-      return { data: null, error: "notfound" };
+      return { data: null, error: 'notfound' };
     case 210:
-      return { data: null, error: "notrunning" };
+      return { data: null, error: 'notrunning' };
   }
 }
 
