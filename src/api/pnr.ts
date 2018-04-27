@@ -1,16 +1,7 @@
-/**
- * Exports the getPNRStatus function.
- */
-
 import { httpClient, key } from './config';
 import { AxiosResponse } from 'axios';
 
-/**
- * Interface describing the shape of the railwayapi PNR
- * status response. Only the fields we're actually interested in.
- *
- * https://railwayapi.com/api/#pnr-status
- */
+// https://railwayapi.com/api/#pnr-status
 interface IPNRResponse {
   response_code: number;
 
@@ -33,10 +24,6 @@ interface IPNRResponse {
   passengers: Array<{ current_status: string }>;
 }
 
-/**
- * Class that takes the API response and makes an
- * object describing it.
- */
 class PNRStatus {
   public journeyDate: string;
   public numPassengers: number;

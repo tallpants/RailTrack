@@ -9,7 +9,6 @@
     "dev": "nodemon"
   },
   "dependencies": {
-    "@types/mysql": "^2.15.4",
     "actions-on-google": "^1.10.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",

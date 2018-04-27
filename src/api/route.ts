@@ -1,16 +1,7 @@
-/**
- * Exports the getRoute function.
- */
-
 import { httpClient, key } from './config';
 import { AxiosResponse } from 'axios';
 
-/**
- * Interface describing the shape of the API response. Only the fields
- * we're interested in.
- *
- * https://railwayapi.com/api/#train-route
- */
+// https://railwayapi.com/api/#train-route
 interface IRouteResponse {
   response_code: number;
 
@@ -22,10 +13,6 @@ interface IRouteResponse {
   route: Array<{ station: { name: string } }>;
 }
 
-/**
- * Class that converts the API response data into
- * a more usable object.
- */
 class RouteStatus {
   public trainName: string;
   public trainNumber: string;
