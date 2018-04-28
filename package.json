@@ -6,7 +6,15 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
+    "moduleFileExtensions": ["ts", "js"]
   },
   "dependencies": {
     "actions-on-google": "^1.10.0",
@@ -20,9 +28,12 @@
     "@types/axios": "^0.14.0",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.11.1",
+    "@types/jest": "^22.2.3",
     "@types/node": "^9.6.1",
+    "jest": "^22.4.3",
     "nodemon": "^1.17.3",
     "source-map-support": "^0.5.4",
+    "ts-jest": "^22.4.4",
     "ts-node": "^5.0.1",
     "typescript": "^2.8.1"
   }
