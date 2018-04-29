@@ -1,5 +1,8 @@
 # RailTrack Server
 
-[![Build Status](https://travis-ci.org/tallpants/RailTrack.svg?branch=master)](https://travis-ci.org/tallpants/RailTrack) [![Coverage Status](https://coveralls.io/repos/github/tallpants/RailTrack/badge.svg?branch=master)](https://coveralls.io/github/tallpants/RailTrack?branch=master)
+[![Build Status](https://travis-ci.org/tallpants/RailTrack.svg?branch=master)](https://travis-ci.org/tallpants/RailTrack)
+[![Code Climate](https://codeclimate.com/github/tallpants/RailTrack)](https://img.shields.io/codeclimate/maintainability-percentage/tallpants/RailTrack.svg)
+[![Code Climate](https://codeclimate.com/github/tallpants/RailTrack)](https://img.shields.io/codeclimate/coverage/tallpants/RailTrack.svg)
+[![Code Climate](https://codeclimate.com/github/tallpants/RailTrack)](https://img.shields.io/codeclimate/tech-debt/tallpants/RailTrack.svg)
 
 Backend for the RailTrack Google Assistant app.
