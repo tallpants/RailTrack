@@ -11,12 +11,7 @@ describe('RailwayAPIClient', () => {
     jest.resetAllMocks();
   });
 
-  it('Makes a GET request using Axios', () => {
-    railwayAPIClient.get('hello/world');
-    expect((Axios.get as jest.Mock).mock.calls.length).toBe(1);
-  });
-
-  it('Appends the API Key to the GET request URL', () => {
+  it('Makes GET requests to RailwayAPI with the API Key included', () => {
     railwayAPIClient.get('hello/world');
 
     expect((Axios.get as jest.Mock).mock.calls[0][0]).toBe(

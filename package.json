@@ -19,7 +19,8 @@
     "moduleFileExtensions": ["ts", "js"],
     "collectCoverage": true,
     "collectCoverageFrom": ["**/*.ts"],
-    "coverageReporters": ["lcov", "text"]
+    "coverageReporters": ["lcov", "text"],
+    "verbose": true
   },
   "dependencies": {
     "actions-on-google": "^1.10.0",
