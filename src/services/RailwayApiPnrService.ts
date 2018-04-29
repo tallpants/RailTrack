@@ -1,5 +1,5 @@
 import PnrService, { PnrStatus } from './PnrService';
-import RailwayAPIClient from '../clients/RailwayAPIClient';
+import RailwayApiClient from '../clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#pnr-status
 export interface RailwayApiPnrResponse {
@@ -19,9 +19,9 @@ export interface RailwayApiPnrResponse {
 }
 
 export default class RailwayApiPnrService implements PnrService {
-  private railwayApiClient: RailwayAPIClient;
+  private railwayApiClient: RailwayApiClient;
 
-  constructor(railwayApiClient: RailwayAPIClient) {
+  constructor(railwayApiClient: RailwayApiClient) {
     this.railwayApiClient = railwayApiClient;
   }
 

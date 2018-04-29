@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
 
-export default interface APIClient {
+export default interface ApiClient {
   get(uri: string): Promise<AxiosResponse>;
 }

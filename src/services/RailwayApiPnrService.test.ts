@@ -2,15 +2,15 @@ import RailwayApiPnrService, {
   RailwayApiPnrResponse,
 } from './RailwayApiPnrService';
 
-import APIClient from '../clients/APIClient';
-import RailwayAPIClient from '../clients/RailwayAPIClient';
+import ApiClient from '../clients/ApiClient';
+import RailwayApiClient from '../clients/RailwayAPIClient';
 import { AxiosResponse } from 'axios';
 import { PnrStatus } from './PnrService';
 
 describe('RailwayApiPnrService', () => {
   describe('getPnrStatus', () => {
     it('Rejects with `REQUEST_FAILED` if HTTP request fails', () => {
-      const mockRailwayApiClient: APIClient = {
+      const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
           return Promise.reject(
             new Error('Request failed with status code 400'),
@@ -19,7 +19,7 @@ describe('RailwayApiPnrService', () => {
       };
 
       const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayAPIClient,
+        mockRailwayApiClient as RailwayApiClient,
       );
 
       expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
@@ -28,7 +28,7 @@ describe('RailwayApiPnrService', () => {
     });
 
     it('Rejects with `PNR_NOTFOUND` if API response code is 405', () => {
-      const mockRailwayApiClient: APIClient = {
+      const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
           return Promise.resolve({
             data: { response_code: 405 },
@@ -37,7 +37,7 @@ describe('RailwayApiPnrService', () => {
       };
 
       const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayAPIClient,
+        mockRailwayApiClient as RailwayApiClient,
       );
       expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
         'PNR_NOTFOUND',
@@ -45,7 +45,7 @@ describe('RailwayApiPnrService', () => {
     });
 
     it('Rejects with `PNR_FLUSHED` if API response code is 220', () => {
-      const mockRailwayApiClient: APIClient = {
+      const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
           return Promise.resolve({
             data: { response_code: 220 },
@@ -54,7 +54,7 @@ describe('RailwayApiPnrService', () => {
       };
 
       const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayAPIClient,
+        mockRailwayApiClient as RailwayApiClient,
       );
       expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
         'PNR_FLUSHED',
@@ -62,7 +62,7 @@ describe('RailwayApiPnrService', () => {
     });
 
     it('Rejects with `PNR_INVALID` if API response code is 221', () => {
-      const mockRailwayApiClient: APIClient = {
+      const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
           return Promise.resolve({
             data: { response_code: 221 },
@@ -71,7 +71,7 @@ describe('RailwayApiPnrService', () => {
       };
 
       const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayAPIClient,
+        mockRailwayApiClient as RailwayApiClient,
       );
       expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
         'PNR_INVALID',
@@ -114,14 +114,14 @@ describe('RailwayApiPnrService', () => {
         passengerStatuses: ['RLWL/11', 'RLWL/12', 'RLWL/13'],
       };
 
-      const mockRailwayApiClient: APIClient = {
+      const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
           return Promise.resolve({ data: mockApiResponse } as AxiosResponse);
         },
       };
 
       const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayAPIClient,
+        mockRailwayApiClient as RailwayApiClient,
       );
       expect(railwayApiPnrService.getPnrStatus('12345')).resolves.toMatchObject(
         expectedResult,

@@ -1,8 +1,8 @@
 import Axios, { AxiosResponse } from 'axios';
 
-import APIClient from './APIClient';
+import ApiClient from './ApiClient';
 
-export default class RailwayAPIClient implements APIClient {
+export default class RailwayApiClient implements ApiClient {
   private apiKey: string;
   private baseURL: string = 'https://api.railwayapi.com/v2';
 
