@@ -27,6 +27,40 @@ describe('RailwayApiPnrService', () => {
       );
     });
 
+    it('Rejects with `PNR_NOTFOUND` if API response code is 221', () => {
+      const mockRailwayApiClient: ApiClient = {
+        get(): Promise<AxiosResponse> {
+          return Promise.resolve({
+            data: { response_code: 221 },
+          } as AxiosResponse);
+        },
+      };
+
+      const railwayApiPnrService = new RailwayApiPnrService(
+        mockRailwayApiClient as RailwayApiClient,
+      );
+      expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
+        'PNR_NOTFOUND',
+      );
+    });
+
+    it('Rejects with `PNR_NOTFOUND` if API response code is 404', () => {
+      const mockRailwayApiClient: ApiClient = {
+        get(): Promise<AxiosResponse> {
+          return Promise.resolve({
+            data: { response_code: 404 },
+          } as AxiosResponse);
+        },
+      };
+
+      const railwayApiPnrService = new RailwayApiPnrService(
+        mockRailwayApiClient as RailwayApiClient,
+      );
+      expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
+        'PNR_NOTFOUND',
+      );
+    });
+
     it('Rejects with `PNR_NOTFOUND` if API response code is 405', () => {
       const mockRailwayApiClient: ApiClient = {
         get(): Promise<AxiosResponse> {
@@ -58,23 +92,6 @@ describe('RailwayApiPnrService', () => {
       );
       expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
         'PNR_FLUSHED',
-      );
-    });
-
-    it('Rejects with `PNR_INVALID` if API response code is 221', () => {
-      const mockRailwayApiClient: ApiClient = {
-        get(): Promise<AxiosResponse> {
-          return Promise.resolve({
-            data: { response_code: 221 },
-          } as AxiosResponse);
-        },
-      };
-
-      const railwayApiPnrService = new RailwayApiPnrService(
-        mockRailwayApiClient as RailwayApiClient,
-      );
-      expect(railwayApiPnrService.getPnrStatus('12345')).rejects.toThrow(
-        'PNR_INVALID',
       );
     });
 

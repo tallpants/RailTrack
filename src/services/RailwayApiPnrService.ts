@@ -35,12 +35,12 @@ export default class RailwayApiPnrService implements PnrService {
     }
 
     switch (data.response_code) {
+      case 221:
+      case 404:
       case 405:
         throw new Error('PNR_NOTFOUND');
       case 220:
         throw new Error('PNR_FLUSHED');
-      case 221:
-        throw new Error('PNR_INVALID');
     }
 
     return {
