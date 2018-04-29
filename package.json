@@ -5,29 +5,23 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "cross-env NODE_ENV=production node dist/index",
+    "start": "node dist/index",
     "dev": "nodemon",
     "test": "jest",
-    "ci": "jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "coverage": "opener coverage/lcov-report/index.html || echo 'Run tests first'"
+    "ci":
+      "jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "coverage":
+      "opener coverage/lcov-report/index.html || echo 'Run tests first'"
   },
   "jest": {
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "js"],
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.ts"
-    ],
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
+    "collectCoverageFrom": ["**/*.ts"],
+    "coverageReporters": ["lcov", "text"],
     "verbose": true
   },
   "dependencies": {
