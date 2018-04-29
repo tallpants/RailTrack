@@ -2,6 +2,7 @@ import RouteService, { Route } from './RouteService';
 import RailwayApiClient from '../clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#train-route
+
 export interface RailwayApiRouteResponse {
   response_code: number;
   train: {

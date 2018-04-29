@@ -2,6 +2,7 @@ import PnrService, { PnrStatus } from './PnrService';
 import RailwayApiClient from '../clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#pnr-status
+
 export interface RailwayApiPnrResponse {
   response_code: number;
   doj: string;
