@@ -1,5 +1,5 @@
 import RouteService, { Route } from './RouteService';
-import RailwayApiClient from '../clients/RailwayApiClient';
+import RailwayApiClient from '../api-clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#train-route
 

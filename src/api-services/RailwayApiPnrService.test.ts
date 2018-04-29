@@ -2,8 +2,8 @@ import RailwayApiPnrService, {
   RailwayApiPnrResponse,
 } from './RailwayApiPnrService';
 
-import ApiClient from '../clients/ApiClient';
-import RailwayApiClient from '../clients/RailwayAPIClient';
+import ApiClient from '../api-clients/ApiClient';
+import RailwayApiClient from '../api-clients/RailwayAPIClient';
 import { AxiosResponse } from 'axios';
 import { PnrStatus } from './PnrService';
 

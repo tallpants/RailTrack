@@ -1,10 +1,10 @@
-import ApiClient from '../clients/ApiClient';
+import ApiClient from '../api-clients/ApiClient';
 import { AxiosResponse } from 'axios';
 import RailwayApiLiveStatusService, {
   RailwayApiLiveStatusResponse,
   formatDate,
 } from './RailwayApiLiveStatusService';
-import RailwayApiClient from '../clients/RailwayApiClient';
+import RailwayApiClient from '../api-clients/RailwayApiClient';
 import { LiveStatus } from './LiveStatusService';
 
 describe('RailwayApiLiveStatusService', () => {

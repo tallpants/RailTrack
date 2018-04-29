@@ -1,6 +1,6 @@
-import ApiClient from '../clients/ApiClient';
+import ApiClient from '../api-clients/ApiClient';
 import { AxiosResponse } from 'axios';
-import RailwayApiClient from '../clients/RailwayApiClient';
+import RailwayApiClient from '../api-clients/RailwayApiClient';
 import RailwayApiRouteService, {
   RailwayApiRouteResponse,
 } from './RailwayApiRouteService';

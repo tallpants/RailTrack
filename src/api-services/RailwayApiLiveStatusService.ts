@@ -1,5 +1,5 @@
 import LiveStatusService, { LiveStatus } from './LiveStatusService';
-import RailwayApiClient from '../clients/RailwayApiClient';
+import RailwayApiClient from '../api-clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#live-train-status
 

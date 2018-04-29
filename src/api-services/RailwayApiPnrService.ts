@@ -1,5 +1,5 @@
 import PnrService, { PnrStatus } from './PnrService';
-import RailwayApiClient from '../clients/RailwayApiClient';
+import RailwayApiClient from '../api-clients/RailwayApiClient';
 
 // https://railwayapi.com/api/#pnr-status
 
