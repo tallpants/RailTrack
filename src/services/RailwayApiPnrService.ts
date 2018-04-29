@@ -1,6 +1,5 @@
 import PnrService, { PnrStatus } from './PnrService';
 import RailwayAPIClient from '../clients/RailwayAPIClient';
-import { AxiosResponse } from 'axios';
 
 // https://railwayapi.com/api/#pnr-status
 export interface RailwayApiPnrResponse {
