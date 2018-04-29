@@ -8,18 +8,26 @@
     "start": "cross-env NODE_ENV=production node dist/index",
     "dev": "nodemon",
     "test": "jest",
-    "coverage":
-      "opener coverage/lcov-report/index.html || echo 'Run tests first'"
+    "ci": "jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "coverage": "opener coverage/lcov-report/index.html || echo 'Run tests first'"
   },
   "jest": {
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "collectCoverage": true,
-    "collectCoverageFrom": ["**/*.ts"],
-    "coverageReporters": ["lcov", "text"],
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
     "verbose": true
   },
   "dependencies": {
@@ -36,6 +44,7 @@
     "@types/express": "^4.11.1",
     "@types/jest": "^22.2.3",
     "@types/node": "^9.6.1",
+    "coveralls": "^3.0.0",
     "cross-env": "^5.1.4",
     "jest": "^22.4.3",
     "nodemon": "^1.17.3",
