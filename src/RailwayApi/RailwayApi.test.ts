@@ -20,8 +20,8 @@ describe('RailwayApi', () => {
 
       const apiKey = '12345';
       const testUri = 'testuri';
-
       const railwayApi = new RailwayApi(apiKey) as any;
+
       railwayApi._get(testUri).then(() => {
         const argument: string = mockedGet.mock.calls[0][0];
         expect(argument).toEqual(
@@ -29,9 +29,7 @@ describe('RailwayApi', () => {
         );
       });
     });
-  });
 
-  describe('getPnrStatus', () => {
     it('Rejects with `REQUEST_FAILED` if HTTP request fails', () => {
       const mockedGet = jest.fn(() =>
         Promise.reject(new Error('Request failed with status code 400')),
@@ -39,12 +37,12 @@ describe('RailwayApi', () => {
 
       jest.setMock('axios', { get: mockedGet });
 
-      const railwayApi = new RailwayApi('');
-      expect(railwayApi.getPnrStatus('12345')).rejects.toThrow(
-        'REQUEST_FAILED',
-      );
+      const railwayApi = new RailwayApi('') as any;
+      expect(railwayApi._get('')).rejects.toThrow('REQUEST_FAILED');
     });
+  });
 
+  describe('getPnrStatus', () => {
     it('Rejects with `PNR_NOTFOUND` if API response code is 221', () => {
       const mockedGet = jest.fn(() =>
         Promise.resolve({
@@ -149,19 +147,6 @@ describe('RailwayApi', () => {
   });
 
   describe('getLiveStatus', () => {
-    it('Rejects with `REQUEST_FAILED` if HTTP request fails', () => {
-      const mockedGet = jest.fn(() =>
-        Promise.reject(new Error('Request failed with status code 400')),
-      );
-
-      jest.setMock('axios', { get: mockedGet });
-
-      const railwayApi = new RailwayApi('');
-      expect(railwayApi.getLiveStatus('12345')).rejects.toThrow(
-        'REQUEST_FAILED',
-      );
-    });
-
     it('Rejects with `TRAIN_NOTFOUND` if API response code is 404', () => {
       const mockedGet = jest.fn(() =>
         Promise.resolve({
@@ -258,17 +243,6 @@ describe('RailwayApi', () => {
   });
 
   describe('getRoute', () => {
-    it('Rejects with `REQUEST_FAILED` if HTTP request fails', () => {
-      const mockedGet = jest.fn(() =>
-        Promise.reject(new Error('Request failed with status code 400')),
-      );
-
-      jest.setMock('axios', { get: mockedGet });
-
-      const railwayApi = new RailwayApi('');
-      expect(railwayApi.getRoute('12345')).rejects.toThrow('REQUEST_FAILED');
-    });
-
     it('Rejects with `TRAIN_NOTFOUND` if API response code is 404', () => {
       const mockedGet = jest.fn(() =>
         Promise.resolve({

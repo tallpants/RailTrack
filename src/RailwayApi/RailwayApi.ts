@@ -1,5 +1,5 @@
 import { PnrStatus, LiveStatus, Route } from './types';
-import Axios from 'axios';
+import Axios, { AxiosResponse } from 'axios';
 import formatDate from './helpers/formatDate';
 
 export default class RailwayApi {
@@ -9,10 +9,14 @@ export default class RailwayApi {
     this._apiKey = apiKey;
   }
 
-  private _get(uri: string) {
-    return Axios.get(
-      `https://api.railwayapi.com/v2/${uri}/apikey/${this._apiKey}`,
-    );
+  private async _get(uri: string): Promise<AxiosResponse<any>> {
+    try {
+      return await Axios.get(
+        `https://api.railwayapi.com/v2/${uri}/apikey/${this._apiKey}`,
+      );
+    } catch (_) {
+      throw new Error('REQUEST_FAILED');
+    }
   }
 
   async getPnrStatus(pnrNumber: string): Promise<PnrStatus> {
@@ -34,11 +38,7 @@ export default class RailwayApi {
 
     let data: ApiPnrResponse;
 
-    try {
-      ({ data } = await this._get(`pnr-status/${pnrNumber}`));
-    } catch (_) {
-      throw new Error('REQUEST_FAILED');
-    }
+    ({ data } = await this._get(`pnr-status/${pnrNumber}`));
 
     switch (data.response_code) {
       case 221:
@@ -76,13 +76,9 @@ export default class RailwayApi {
 
     const datestring = formatDate(new Date());
 
-    try {
-      ({ data } = await this._get(
-        `live/train/${trainNumber}/date/${datestring}`,
-      ));
-    } catch (_) {
-      throw new Error('REQUEST_FAILED');
-    }
+    ({ data } = await this._get(
+      `live/train/${trainNumber}/date/${datestring}`,
+    ));
 
     switch (data.response_code) {
       case 404:
@@ -113,11 +109,7 @@ export default class RailwayApi {
 
     let data: ApiRouteResponse;
 
-    try {
-      ({ data } = await this._get(`route/train/${trainNumber}`));
-    } catch (_) {
-      throw new Error('REQUEST_FAILED');
-    }
+    ({ data } = await this._get(`route/train/${trainNumber}`));
 
     if (data.response_code === 404) {
       throw new Error('TRAIN_NOTFOUND');
