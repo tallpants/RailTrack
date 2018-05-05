@@ -19,8 +19,12 @@ describe('helpers', () => {
     });
 
     it('Throws error for negative numbers', () => {
-      expect(padZero(-1)).toThrowError('padZero expects only positive numbers');
-      expect(padZero(-100)).toThrowError('padZero expects positive numbers');
+      expect(() => padZero(-1)).toThrowError(
+        'padZero expects only positive numbers',
+      );
+      expect(() => padZero(-100)).toThrow(
+        'padZero expects only positive numbers',
+      );
     });
   });
 });
