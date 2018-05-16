@@ -1,5 +1,7 @@
-import { httpClient, key } from "./config";
-import { AxiosResponse } from "axios";
+import { httpClient, key } from './config';
+import { AxiosResponse } from 'axios';
+
+import formatDate from '../utils/formatDate';
 
 interface ILiveStatusResponse {
   response_code: number;
@@ -34,42 +36,23 @@ class LiveStatus {
   }
 }
 
-type LiveStatusErrorReason = "notfound" | "notrunning";
+type LiveStatusErrorReason = 'notfound' | 'notrunning';
 
 export default async function getLiveStatus(
-  trainNumber: string
+  trainNumber: string,
 ): Promise<{ data?: LiveStatus; error?: LiveStatusErrorReason }> {
   const datestring = formatDate(new Date());
 
   const response: AxiosResponse<ILiveStatusResponse> = await httpClient.get(
-    `/live/train/${trainNumber}/date/${datestring}/apikey/${key}/`
+    `/live/train/${trainNumber}/date/${datestring}/apikey/${key}/`,
   );
 
   switch (response.data.response_code) {
     case 200:
       return { data: new LiveStatus(response.data), error: null };
     case 404:
-      return { data: null, error: "notfound" };
+      return { data: null, error: 'notfound' };
     case 210:
-      return { data: null, error: "notrunning" };
+      return { data: null, error: 'notrunning' };
   }
-}
-
-// Takes a Date object and returns a 'dd-mm-yyyy' date string.
-function formatDate(d: Date): string {
-  const day = d.getDate();
-  const month = d.getMonth() + 1; // The month number returned by getMonth() is 0 indexed.
-  const year = d.getFullYear();
-
-  return `${padZero(day)}-${padZero(month)}-${year}`;
-}
-
-// Prepends a 0 if the number is one digit long.
-// 9 -> 09, but 13 -> 13
-function padZero(num: number): string {
-  if (num < 10) {
-    return `0${num}`;
-  }
-
-  return `${num}`;
 }

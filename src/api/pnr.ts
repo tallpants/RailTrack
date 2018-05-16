@@ -2,8 +2,8 @@
  * Exports the getPNRStatus function.
  */
 
-import { httpClient, key } from "./config";
-import { AxiosResponse } from "axios";
+import { httpClient, key } from './config';
+import { AxiosResponse } from 'axios';
 
 /**
  * Interface describing the shape of the railwayapi PNR
@@ -54,18 +54,18 @@ class PNRStatus {
     this.trainName = apiResponse.train.name;
     this.trainNumber = apiResponse.train.number;
     this.statuses = apiResponse.passengers.map(
-      passenger => passenger.current_status
+      passenger => passenger.current_status,
     );
   }
 }
 
-type PNRErrorReason = "notfound" | "flushed" | "invalid";
+type PNRErrorReason = 'notfound' | 'flushed' | 'invalid';
 
 export default async function getPNRStatus(
-  pnrNumber: string
+  pnrNumber: string,
 ): Promise<{ data?: PNRStatus; error?: PNRErrorReason }> {
   const response: AxiosResponse<IPNRResponse> = await httpClient.get(
-    `/pnr-status/pnr/${pnrNumber}/apikey/${key}`
+    `/pnr-status/pnr/${pnrNumber}/apikey/${key}`,
   );
 
   switch (response.data.response_code) {
@@ -73,10 +73,12 @@ export default async function getPNRStatus(
       return { data: new PNRStatus(response.data), error: null };
     case 404:
     case 405:
-      return { data: null, error: "notfound" };
+      return { data: null, error: 'notfound' };
     case 220:
-      return { data: null, error: "flushed" };
+      return { data: null, error: 'flushed' };
     case 221:
-      return { data: null, error: "invalid" };
+      return { data: null, error: 'invalid' };
+    default:
+      return { data: null, error: 'invalid' };
   }
 }
