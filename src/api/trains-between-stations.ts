@@ -45,7 +45,7 @@ class TrainsBetweenStations {
   }
 }
 
-type TrainsBetweenStationsErrorReason = 'invalidstation';
+type TrainsBetweenStationsErrorReason = 'apifailed';
 
 export default async function getTrainsBetweenStations(
   sourceStationCode: string,
@@ -66,6 +66,6 @@ export default async function getTrainsBetweenStations(
     case 200:
       return { data: new TrainsBetweenStations(response.data), error: null };
     default:
-      return { data: null, error: 'invalidstation' };
+      return { data: null, error: 'apifailed' };
   }
 }

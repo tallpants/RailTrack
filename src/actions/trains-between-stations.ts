@@ -31,7 +31,9 @@ export default async function TrainsBetweenStationsAction(app: DialogflowApp) {
   );
 
   if (response.error) {
-    return app.tell('This should not even be possible.');
+    return app.tell(
+      `Sorry, this IRCTC service isn't available right now. Please try again later.`,
+    );
   }
 
   const { trains } = response.data;
